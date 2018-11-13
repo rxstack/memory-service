@@ -1,7 +1,6 @@
 import 'reflect-metadata';
 import {MemoryService} from '../src/memory-service';
 import {Product} from './mocks/product';
-import {loader} from './mocks/loader';
 import {data1} from './mocks/data';
 import {BadRequestException, Exception} from '@rxstack/exceptions';
 import * as _ from 'lodash';
@@ -30,92 +29,120 @@ describe('MemoryService:Impl', () => {
     await injector.get(DataContainer).purge();
   });
 
-  it('#create', async () => {
+  it('#insertOne', async () => {
     const data = _.omit(data1[0], 'id');
-    const product = await service.create(data);
+    const product = await service.insertOne(data);
     (typeof product.id).should.equal('string');
   });
 
-  it('#create should throw an exception if record exists', async () => {
+  it('#insertOne should throw an exception if record exists', async () => {
     const data = _.cloneDeep(data1[0]);
-    const product = await service.create(data);
+    const product = await service.insertOne(data);
     product.id.should.equal('product-1');
     let exception: Exception;
     try {
-      await service.create(data);
+      await service.insertOne(data);
     } catch (e) {
       exception = e;
     }
     exception.should.be.instanceOf(BadRequestException);
   });
 
-  it('#replace', async () => {
-    await loader(service, _.cloneDeep(data1));
-    const result = await service.replace('product-1', Object.assign(_.cloneDeep(data1[0]) ,{
+
+  it('#insertMany', async () => {
+    await service.insertMany(_.cloneDeep(data1));
+    const result = await service.count();
+    result.should.be.equal(3);
+  });
+
+
+  it('#updateOne', async () => {
+    await service.insertMany(_.cloneDeep(data1));
+    const result = await service.updateOne('product-1', Object.assign(_.cloneDeep(data1[0]) , {
       'name': 'replaced'
     }));
     result.id.should.be.equal('product-1');
     result.name.should.be.equal('replaced');
   });
 
-  it('#patch should throw an exception if record does not exist', async () => {
+
+  it('#updateOne with patch', async () => {
+    await service.insertMany(_.cloneDeep(data1));
+    const result = await service.updateOne('product-1', {
+      'name': 'patched'
+    }, { patch: true });
+    result.id.should.be.equal('product-1');
+    result.name.should.be.equal('patched');
+  });
+
+  it('#updateOne should throw an exception if record does not exists', async () => {
     let exception: Exception;
     try {
-      await service.patch('unknown', {});
+      await service.updateOne('unknown', {});
     } catch (e) {
       exception = e;
     }
     exception.should.be.instanceOf(BadRequestException);
   });
 
-  it('#patch', async () => {
-    await loader(service, _.cloneDeep(data1));
-    const result = await service.patch('product-1', {
+  it('#updateMany', async () => {
+    await service.insertMany(_.cloneDeep(data1));
+    const cnt = await service.updateMany({ 'price': {'$gt': 1} }, {
       'name': 'patched'
     });
-    result.id.should.be.equal('product-1');
-    result.name.should.be.equal('patched');
+    cnt.should.equal(3);
+    const products = await service.findMany();
+    products.forEach(p => p.name.should.equal('patched'));
   });
 
-  it('#remove', async () => {
-    await loader(service, _.cloneDeep(data1));
-    await service.remove('product-1');
-    const result = await service.findOneById('product-1');
+  it('#removeOne', async () => {
+    await service.insertMany(_.cloneDeep(data1));
+    await service.removeOne('product-1');
+    const result = await service.findOne({'id': { '$eq': 'product-1' }});
     (!!result).should.be.equal(false);
   });
 
+
+  it('#removeMany', async () => {
+    await service.insertMany(_.cloneDeep(data1));
+    const cnt = await service.removeMany({ 'price': {'$gt': 1}});
+    cnt.should.equal(3);
+    const productsCnt = await service.count();
+    productsCnt.should.equal(0);
+  });
+
   it('#findMany', async () => {
-    await loader(service, data1);
+    await service.insertMany(data1);
     const result = await service.findMany();
     result.length.should.be.equal(3);
   });
   //
   it('#findMany with query', async () => {
-    await loader(service, data1);
+    await service.insertMany(data1);
     const result = await service.findMany({'where': {'tags': {'$in': 'tag2'}}, limit: 10, skip: 0});
     result.length.should.be.equal(2);
   });
 
   it('#count', async () => {
-    await loader(service, data1);
+    await service.insertMany(data1);
     const result = await service.count();
     result.should.be.equal(3);
   });
 
   it('#count with query', async () => {
-    await loader(service, data1);
+    await service.insertMany(data1);
     const result = await service.count({'tags': {'$in': 'tag2'}});
     result.should.be.equal(2);
   });
 
   it('#findOne', async () => {
-    await loader(service, data1);
+    await service.insertMany(data1);
     const result = await service.findOne({'name': {'$eq': 'name1'}});
     result.name.should.be.equal('name1');
   });
 
   it('#findOne with sort', async () => {
-    await loader(service, data1);
+    await service.insertMany(data1);
     const result = await service.findOne({}, {'price': -1});
     result.name.should.be.equal('name3');
   });

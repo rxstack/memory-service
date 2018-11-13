@@ -1,4 +1,4 @@
-import {ServiceInterface} from '@rxstack/platform';
+import {ServiceInterface, UpdateOneOptions} from '@rxstack/platform';
 import {QueryInterface, SortInterface} from '@rxstack/query-filter';
 import {Injectable, Injector} from 'injection-js';
 import {MATCHER_TOKEN, MatcherInterface, MemoryServiceOptions, SORTER_TOKEN, SorterInterface} from './interfaces';
@@ -20,7 +20,7 @@ export class MemoryService<T> implements ServiceInterface<T>, InjectorAwareInter
     this.injector = injector;
   }
 
-  async create(data: Object): Promise<T> {
+  async insertOne(data: Object): Promise<T> {
     const id = data[this.options.idField] || uuid();
     this.assertObject(id, true);
     const obj = _.extend({}, data, { [this.options.idField]: id }) as T;
@@ -28,31 +28,51 @@ export class MemoryService<T> implements ServiceInterface<T>, InjectorAwareInter
     return obj;
   }
 
-  async replace(id: any, data: Object): Promise<T> {
-    this.assertObject(id, false);
-    const replacedObj = _.extend({}, data, { [this.options.idField]: id }) as T;
-    this.getCollection().set(id, replacedObj);
-    return replacedObj;
+  async insertMany(data: Object[]): Promise<T[]> {
+    const promises: Promise<T>[] = [];
+    data.forEach(data => promises.push(this.insertOne(data)));
+    return Promise.all(promises);
   }
 
-  async patch(id: any, data: Object): Promise<T> {
+  async updateOne(id: any, data: Object, options?: UpdateOneOptions): Promise<T> {
     this.assertObject(id, false);
-    const patchedObj = _.extend(this.getCollection().get(id), _.omit(data, this.options.idField)) as T;
-    this.getCollection().set(id, patchedObj);
-    return patchedObj;
+    let resource: T;
+    if (options && options.patch) {
+      resource = _.extend(this.getCollection().get(id), _.omit(data, this.options.idField)) as T;
+    } else {
+      resource = _.extend({}, data, { [this.options.idField]: id }) as T;
+    }
+    this.getCollection().set(id, resource);
+    return resource;
   }
 
-  async remove(id: any): Promise<void> {
+  async updateMany(criteria: Object, data: Object): Promise<number> {
+    const promises: Promise<T>[] = [];
+    const resources = await this.findMany({where: criteria, skip: 0, limit: this.options.defaultLimit});
+    resources.forEach(
+      resource => promises.push(this.updateOne(resource[this.options.idField], data, { patch: true }))
+    );
+    const result = await Promise.all(promises);
+    return result.length;
+  }
+
+  async removeOne(id: any): Promise<void> {
     this.assertObject(id, false);
     this.getCollection().delete(id);
   }
 
-  async count(criteria?: Object): Promise<number> {
-    return this.getFilteredAndSortedResult(criteria).length;
+  async removeMany(criteria: Object): Promise<number> {
+    const promises: Promise<void>[] = [];
+    const resources = await this.findMany({where: criteria, skip: 0, limit: this.options.defaultLimit});
+    resources.forEach(
+      resource => promises.push(this.removeOne(resource[this.options.idField]))
+    );
+    const result = await Promise.all(promises);
+    return result.length;
   }
 
-  async findOneById(id: any): Promise<T> {
-    return this.getCollection().get(id);
+  async count(criteria?: Object): Promise<number> {
+    return this.getFilteredAndSortedResult(criteria).length;
   }
 
   async findOne(criteria: Object, sort?: SortInterface): Promise<T> {
