@@ -13,7 +13,7 @@ describe('MemoryService:Impl', () => {
   // Setup application
   const app = new Application(MEMORY_SERVICE_OPTIONS);
   let injector: Injector;
-  let service: MemoryService<Product>;
+  let service: MemoryService<any>;
 
   before(async() =>  {
     await app.start();
@@ -58,9 +58,10 @@ describe('MemoryService:Impl', () => {
 
   it('#updateOne', async () => {
     await service.insertMany(_.cloneDeep(data1));
-    const result = await service.updateOne('product-1', Object.assign(_.cloneDeep(data1[0]) , {
+    await service.updateOne('product-1', Object.assign(_.cloneDeep(data1[0]) , {
       'name': 'replaced'
     }));
+    const result = await service.findOne({'id': {'$eq': 'product-1'}})
     result.id.should.be.equal('product-1');
     result.name.should.be.equal('replaced');
   });
@@ -68,9 +69,9 @@ describe('MemoryService:Impl', () => {
 
   it('#updateOne with patch', async () => {
     await service.insertMany(_.cloneDeep(data1));
-    const result = await service.updateOne('product-1', {
-      'name': 'patched'
-    }, { patch: true });
+    await service.updateOne('product-1', {
+      'name': 'patched'});
+    const result = await service.findOne({'id': {'$eq': 'product-1'}})
     result.id.should.be.equal('product-1');
     result.name.should.be.equal('patched');
   });
@@ -145,5 +146,11 @@ describe('MemoryService:Impl', () => {
     await service.insertMany(data1);
     const result = await service.findOne({}, {'price': -1});
     result.name.should.be.equal('name3');
+  });
+
+  it('#findOne with dot', async () => {
+    await service.insertMany([{'id': 1, user: {fname: 'aaa', lname: 'bbb'} }]);
+    const result = await service.findOne({'user.fname': {'$eq': 'aaa'}});
+    console.log(result);
   });
 });
