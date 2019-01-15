@@ -27,13 +27,13 @@ export class MemoryService<T> implements ServiceInterface<T>, InjectorAwareInter
     this.assertObjectNotExist(id);
     const obj = _.extend({}, data, { [this.options.idField]: id }) as T;
     this.getCollection().set(id, obj);
-    return obj;
+    return _.cloneDeep(obj);
   }
 
   async insertMany(data: Object[]): Promise<T[]> {
     const promises: Promise<T>[] = [];
     data.forEach(data => promises.push(this.insertOne(data)));
-    return Promise.all(promises);
+    return _.cloneDeep(Promise.all(promises));
   }
 
   async updateOne(id: any, data: Object): Promise<void> {
@@ -68,15 +68,16 @@ export class MemoryService<T> implements ServiceInterface<T>, InjectorAwareInter
   }
 
   async findOne(criteria: Object, sort?: SortInterface): Promise<T> {
-    return _.first(this.getFilteredAndSortedResult(criteria, sort));
+    return _.cloneDeep(_.first(this.getFilteredAndSortedResult(criteria, sort)));
   }
 
   async findMany(query?: QueryInterface): Promise<T[]> {
     query = Object.assign({}, query);
-    return this.getFilteredAndSortedResult(query.where, query.sort)
+    const result = this.getFilteredAndSortedResult(query.where, query.sort)
       .slice(query.skip)
       .slice(0, query.limit)
     ;
+    return _.cloneDeep(result);
   }
 
   protected getCollection(): Map<string, T> {
