@@ -67,8 +67,12 @@ export class MemoryService<T> implements ServiceInterface<T>, InjectorAwareInter
     return this.getFilteredAndSortedResult(criteria).length;
   }
 
-  async findOne(criteria: Object, sort?: SortInterface): Promise<T> {
-    return _.cloneDeep(_.first(this.getFilteredAndSortedResult(criteria, sort)));
+  async find(id: any): Promise<T> {
+    return this.getCollection().get(id);
+  }
+
+  async findOne(criteria: Object): Promise<T> {
+    return _.cloneDeep(_.first(this.getFilteredAndSortedResult(criteria)));
   }
 
   async findMany(query?: QueryInterface): Promise<T[]> {

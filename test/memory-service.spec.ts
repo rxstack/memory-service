@@ -142,15 +142,9 @@ describe('MemoryService:Impl', () => {
     result.name.should.be.equal('name1');
   });
 
-  it('#findOne with sort', async () => {
+  it('#find', async () => {
     await service.insertMany(data1);
-    const result = await service.findOne({}, {'price': -1});
-    result.name.should.be.equal('name3');
-  });
-
-  it('#findOne with dot', async () => {
-    await service.insertMany([{'id': 1, user: {fname: 'aaa', lname: 'bbb'} }]);
-    const result = await service.findOne({'user.fname': {'$eq': 'aaa'}});
-    console.log(result);
+    const result = await service.find('product-1')
+    result.id.should.be.equal('product-1');
   });
 });
