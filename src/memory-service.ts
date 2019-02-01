@@ -74,10 +74,10 @@ export class MemoryService<T> implements ServiceInterface<T>, InjectorAwareInter
   }
 
   async findMany(query?: QueryInterface): Promise<T[]> {
-    query = Object.assign({}, query);
+    query = Object.assign({where: {}, limit: this.options.defaultLimit, skip: 0, sort: null}, query);
     const result = this.getFilteredAndSortedResult(query.where, query.sort)
-      .slice(query.skip || 0)
-      .slice(0, query.limit || this.options.defaultLimit)
+      .slice(query.skip)
+      .slice(0, query.limit)
     ;
     return _.cloneDeep(result);
   }
