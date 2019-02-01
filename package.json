@@ -1,6 +1,6 @@
 {
   "name": "@rxstack/memory-service",
-  "version": "0.1.4",
+  "version": "0.1.6",
   "description": "RxStack Memory Service",
   "private": false,
   "author": "Nikolay Georgiev <symfonist@gmail.com>",
@@ -10,7 +10,7 @@
     "url": "git://github.com/rxstack/memory-service.git"
   },
   "engines": {
-    "node": ">=8"
+    "node": ">=9"
   },
   "keywords": [
     "rxstack",
@@ -27,11 +27,14 @@
     "coverage": "nyc npm run mocha",
     "test": "npm run lint && npm run coverage"
   },
-  "dependencies": {
-    "@rxstack/core": "^0.1.2",
-    "@rxstack/exceptions": "^0.1.3",
-    "@rxstack/platform": "^0.1.7",
+  "peerDependencies": {
+    "@rxstack/core": "^0.1",
+    "@rxstack/exceptions": "^0.1",
+    "@rxstack/platform": "^0.1",
     "@rxstack/query-filter": "^0.1",
+    "@rxstack/security": "^0.1"
+  },
+  "dependencies": {
     "injection-js": "^2.1",
     "lodash": "^4.17.11",
     "reflect-metadata": "^0.1.13",

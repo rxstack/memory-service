@@ -14,7 +14,7 @@ export const MEMORY_SERVICE_OPTIONS: ApplicationOptions = {
     {
       provide: PRODUCT_SERVICE,
       useFactory: () => {
-        return new MemoryService({ idField: 'id', collectionName: 'products', defaultLimit: 100 });
+        return new MemoryService({ idField: 'id', collection: 'products', defaultLimit: 100 });
       },
       deps: [],
     },

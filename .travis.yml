@@ -2,19 +2,25 @@ language: node_js
 node_js:
   - "9"
   - "10"
+  - "11"
 cache:
   directories:
     - "node_modules"
-addons:
-  code_climate:
-    repo_token: 833490a5d275e269aeafa9de0049fb7a5a96ff9ebfdbb76fb47d6bd990991838
+
+env:
+  global:
+    - CC_TEST_REPORTER_ID=833490a5d275e269aeafa9de0049fb7a5a96ff9ebfdbb76fb47d6bd990991838
 
 before_install:
   - npm i -g npm@latest
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
 install:
   - npm install
+  - npm install @rxstack/core@^0.1 @rxstack/exceptions@^0.1 @rxstack/platform@^0.1 @rxstack/query-filter@^0.1 @rxstack/security@^0.1
+
 script:
   - npm test
 after_script:
-  - npm install -g codeclimate-test-reporter
-  - codeclimate-test-reporter < ./coverage/lcov.info
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT

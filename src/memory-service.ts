@@ -14,9 +14,7 @@ export class MemoryService<T> implements ServiceInterface<T>, InjectorAwareInter
 
   protected injector: Injector;
 
-  constructor(public options: MemoryServiceOptions) {
-    options.supportDotNotation = false; // memory service does not support dot notation!!!
-  }
+  constructor(public options: MemoryServiceOptions) { }
 
   setInjector(injector: Injector): void {
     this.injector = injector;
@@ -68,7 +66,7 @@ export class MemoryService<T> implements ServiceInterface<T>, InjectorAwareInter
   }
 
   async find(id: any): Promise<T> {
-    return this.getCollection().get(id);
+    return _.cloneDeep(this.getCollection().get(id));
   }
 
   async findOne(criteria: Object): Promise<T> {
@@ -78,14 +76,14 @@ export class MemoryService<T> implements ServiceInterface<T>, InjectorAwareInter
   async findMany(query?: QueryInterface): Promise<T[]> {
     query = Object.assign({}, query);
     const result = this.getFilteredAndSortedResult(query.where, query.sort)
-      .slice(query.skip)
-      .slice(0, query.limit)
+      .slice(query.skip || 0)
+      .slice(0, query.limit || this.options.defaultLimit)
     ;
     return _.cloneDeep(result);
   }
 
   protected getCollection(): Map<string, T> {
-    return this.injector.get(DataContainer).getCollection<T>(this.options.collectionName);
+    return this.injector.get(DataContainer).getCollection<T>(this.options.collection);
   }
 
   protected getMather(): MatcherInterface {
