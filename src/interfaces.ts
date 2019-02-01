@@ -14,8 +14,7 @@ export interface SorterInterface {
 }
 
 export interface MemoryServiceOptions extends ServiceOptions {
-  collectionName: string;
-  defaultLimit: number;
+  collection: string;
 }
 
 export const MATCHER_TOKEN = new InjectionToken<MatcherInterface>('MATCHER');
