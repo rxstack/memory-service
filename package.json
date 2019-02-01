@@ -1,6 +1,6 @@
 {
   "name": "@rxstack/memory-service",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "RxStack Memory Service",
   "private": false,
   "author": "Nikolay Georgiev <symfonist@gmail.com>",
