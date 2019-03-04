@@ -31,7 +31,8 @@ export class MemoryService<T> implements ServiceInterface<T>, InjectorAwareInter
   async insertMany(data: Object[]): Promise<T[]> {
     const promises: Promise<T>[] = [];
     data.forEach(data => promises.push(this.insertOne(data)));
-    return _.cloneDeep(Promise.all(promises));
+    const result = await Promise.all(promises);
+    return _.cloneDeep(result);
   }
 
   async updateOne(id: any, data: Object): Promise<void> {
