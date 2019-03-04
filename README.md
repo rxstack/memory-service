@@ -138,7 +138,7 @@ and register it in the application providers:
 
 ```typescript
 import {ApplicationOptions} from '@rxstack/core';
-import {MATCHER_TOKEN} from '@rxstack/memory-service';
+import {SORTER_TOKEN} from '@rxstack/memory-service';
 
 export const APP_OPTIONS: ApplicationOptions = {
   // ...
