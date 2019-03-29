@@ -11,7 +11,7 @@
 - [Instalation](#instalation)
 - [Setup](#setup)
 - [Usage](#usage)
-- [Mather](#matcher)
+- [Matcher](#matcher)
 - [Sorter](#sorter)
 
 ## <a name="instalation"></a> Installation
@@ -20,7 +20,7 @@
 npm install @rxstack/memory-service --save
 
 // peer dependencies
-npm install @rxstack/core@^0.1 @rxstack/exceptions@^0.1 @rxstack/platform@^0.1 @rxstack/query-filter@^0.1 @rxstack/security@^0.1
+npm install @rxstack/core@^0.2 @rxstack/exceptions@^0.2 @rxstack/platform@^0.2 @rxstack/query-filter@^0.2 @rxstack/security@^0.2 @rxstack/async-event-dispatcher@^0.2 @rxstack/service-registry@^0.2
 ```
 
 ## <a name="setup"></a>  Setup

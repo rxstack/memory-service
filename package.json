@@ -1,6 +1,6 @@
 {
   "name": "@rxstack/memory-service",
-  "version": "0.1.8",
+  "version": "0.2.0",
   "description": "RxStack Memory Service",
   "private": false,
   "author": "Nikolay Georgiev <symfonist@gmail.com>",
@@ -14,7 +14,8 @@
   },
   "keywords": [
     "rxstack",
-    "in-memory"
+    "in-memory",
+    "platform"
   ],
   "main": "dist/index",
   "typings": "dist/index",
@@ -28,11 +29,11 @@
     "test": "npm run lint && npm run coverage"
   },
   "peerDependencies": {
-    "@rxstack/core": "^0.1",
-    "@rxstack/exceptions": "^0.1",
-    "@rxstack/platform": "^0.1",
-    "@rxstack/query-filter": "^0.1",
-    "@rxstack/security": "^0.1"
+    "@rxstack/core": "^0.2",
+    "@rxstack/exceptions": "^0.2",
+    "@rxstack/platform": "^0.2",
+    "@rxstack/query-filter": "^0.2",
+    "@rxstack/security": "^0.2"
   },
   "dependencies": {
     "injection-js": "^2.1",
