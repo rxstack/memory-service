@@ -4,7 +4,7 @@ node_js:
 cache:
   directories:
     - "node_modules"
-    
+
 env:
   global:
     - CC_TEST_REPORTER_ID=833490a5d275e269aeafa9de0049fb7a5a96ff9ebfdbb76fb47d6bd990991838
