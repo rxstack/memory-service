@@ -16,7 +16,7 @@ before_install:
   - ./cc-test-reporter before-build
 install:
   - npm install
-  - npm install @rxstack/core@^0.4 @rxstack/exceptions@^0.4 @rxstack/platform@^0.4 @rxstack/query-filter@^0.4 @rxstack/security@^0.4 @rxstack/async-event-dispatcher@^0.4 @rxstack/service-registry@^0.4
+  - npm install @rxstack/core@^0.5 @rxstack/exceptions@^0.5 @rxstack/platform@^0.5 @rxstack/query-filter@^0.5 @rxstack/security@^0.5 @rxstack/async-event-dispatcher@^0.5 @rxstack/service-registry@^0.5 winston@^3.2.1
 
 script:
   - npm test

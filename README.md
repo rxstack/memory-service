@@ -20,7 +20,7 @@
 npm install @rxstack/memory-service --save
 
 // peer dependencies
-npm install @rxstack/core@^0.4 @rxstack/exceptions@^0.4 @rxstack/platform@^0.4 @rxstack/query-filter@^0.4 @rxstack/security@^0.4 @rxstack/async-event-dispatcher@^0.4 @rxstack/service-registry@^0.4
+npm install @rxstack/core@^0.5 @rxstack/exceptions@^0.5 @rxstack/platform@^0.5 @rxstack/query-filter@^0.5 @rxstack/security@^0.5 @rxstack/async-event-dispatcher@^0.5 @rxstack/service-registry@^0.5 winston@^3.2.1
 ```
 
 ## <a name="setup"></a>  Setup
@@ -36,10 +36,7 @@ export const APP_OPTIONS: ApplicationOptions = {
   ],
   providers: [
     // ...
-  ],
-  logger: {
-    // ...
-  }
+  ]
 };
 
 new Application(APP_OPTIONS).start();

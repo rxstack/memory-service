@@ -18,15 +18,5 @@ export const MEMORY_SERVICE_OPTIONS: ApplicationOptions = {
       },
       deps: [],
     },
-  ],
-  logger: {
-    handlers: [
-      {
-        type: 'console',
-        options: {
-          level: 'silly',
-        }
-      }
-    ]
-  },
+  ]
 };
