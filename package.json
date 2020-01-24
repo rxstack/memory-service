@@ -1,6 +1,6 @@
 {
   "name": "@rxstack/memory-service",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "RxStack Memory Service",
   "private": false,
   "author": "Nikolay Georgiev <symfonist@gmail.com>",
@@ -29,30 +29,30 @@
     "test": "npm run lint && npm run coverage"
   },
   "peerDependencies": {
-    "@rxstack/core": "^0.5",
-    "@rxstack/platform": "^0.5",
-    "@rxstack/security": "^0.5"
+    "@rxstack/core": "^0.6",
+    "@rxstack/platform": "^0.6",
+    "@rxstack/security": "^0.6"
   },
   "dependencies": {
-    "injection-js": "^2.2.2",
+    "injection-js": "^2.3.0",
     "lodash": "^4.17.11",
     "reflect-metadata": "^0.1.13",
-    "uuid": "^3.3.3"
+    "uuid": "^3.4.0"
   },
   "devDependencies": {
-    "@types/chai": "^4.2.6",
+    "@types/chai": "^4.2.7",
     "@types/lodash": "^4.14.149",
     "@types/mocha": "^5.2.7",
-    "@types/node": "^12.12.14",
+    "@types/node": "^12.12.25",
     "chai": "^4.2.0",
     "mocha": "^6.2.2",
     "nyc": "^14.1.1",
     "should": "^13.2.3",
     "sinon": "^6.3.4",
     "source-map-support": "^0.5.16",
-    "ts-node": "^8.5.4",
+    "ts-node": "^8.6.2",
     "tslint": "^5.20.1",
-    "typescript": "^3.7.3"
+    "typescript": "^3.7.5"
   },
   "bugs": {
     "url": "https://github.com/rxstack/memory-service/issues"
