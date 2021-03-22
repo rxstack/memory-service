@@ -20,7 +20,7 @@
 npm install @rxstack/memory-service --save
 
 // peer dependencies
-npm install @rxstack/core@^0.6 @rxstack/exceptions@^0.5 @rxstack/platform@^0.6 @rxstack/query-filter@^0.5 @rxstack/security@^0.6 @rxstack/async-event-dispatcher@^0.5 @rxstack/service-registry@^0.5 winston@^3.2.1
+npm install --no-save @rxstack/core@^0.7 @rxstack/exceptions@^0.6 @rxstack/platform@^0.7 @rxstack/query-filter@^0.6 @rxstack/security@^0.7 @rxstack/async-event-dispatcher@^0.6 @rxstack/service-registry@^0.6 winston@^3.3.3
 ```
 
 ## <a name="setup"></a>  Setup

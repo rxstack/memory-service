@@ -7,7 +7,7 @@ import {DataContainer} from './data-container';
 import {BadRequestException} from '@rxstack/exceptions';
 import {InjectorAwareInterface} from '@rxstack/core';
 
-const uuid = require('uuid/v4');
+const { v4: uuidv4 } = require('uuid');
 
 @Injectable()
 export class MemoryService<T> implements ServiceInterface<T>, InjectorAwareInterface {
@@ -21,7 +21,7 @@ export class MemoryService<T> implements ServiceInterface<T>, InjectorAwareInter
   }
 
   async insertOne(data: Object): Promise<T> {
-    const id = data[this.options.idField] || uuid();
+    const id = data[this.options.idField] || uuidv4();
     this.assertObjectNotExist(id);
     const obj = _.extend({}, data, { [this.options.idField]: id }) as T;
     this.getCollection().set(id, obj);
