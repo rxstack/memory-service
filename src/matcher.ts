@@ -5,7 +5,7 @@ import {Injectable} from 'injection-js';
 
 interface OperatorType {
   operator: FilterType;
-  callback: Function;
+  callback: (key: any, value: any) => boolean;
   positive: boolean;
 }
 
@@ -21,7 +21,7 @@ export class Matcher implements MatcherInterface {
     ));
   }
 
-  match(query: {[key: string]: any}): FilterCallback {
+  match(query: Record<string, any>): FilterCallback {
     return (item: any): boolean => {
       return query && _.isObject(query['$or']) ?
         _.isObject(query['$or']) && _.some(query['$or'], or => this.match(or)(item)) :

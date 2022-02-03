@@ -1,8 +1,8 @@
 # The RxStack Memory Service Module
 
+[![Node.js CI](https://github.com/rxstack/memory-service/actions/workflows/node.js.yml/badge.svg)](https://github.com/rxstack/memory-service/actions/workflows/node.js.yml)
 [![Maintainability](https://api.codeclimate.com/v1/badges/9e8e95e4e45995eb5ddf/maintainability)](https://codeclimate.com/github/rxstack/memory-service/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/9e8e95e4e45995eb5ddf/test_coverage)](https://codeclimate.com/github/rxstack/memory-service/test_coverage)
-[![Build Status](https://travis-ci.org/rxstack/memory-service.svg?branch=master)](https://travis-ci.org/rxstack/memory-service)
 
 > In-memory data storage that implements [@rxstack/platform adapter API and querying syntax](https://github.com/rxstack/rxstack/tree/master/packages/platform#services).
 
@@ -18,9 +18,6 @@
 
 ```
 npm install @rxstack/memory-service --save
-
-// peer dependencies
-npm install --no-save @rxstack/core@^0.7 @rxstack/exceptions@^0.6 @rxstack/platform@^0.7 @rxstack/query-filter@^0.6 @rxstack/security@^0.7 @rxstack/async-event-dispatcher@^0.6 @rxstack/service-registry@^0.6 winston@^3.3.3
 ```
 
 ## <a name="setup"></a>  Setup
