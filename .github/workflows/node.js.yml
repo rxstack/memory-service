@@ -28,6 +28,7 @@ jobs:
         cache: 'npm'
     - run: npm ci
     - run: npm install
+    - run: npm install --no-save @rxstack/platform@^0.7 @rxstack/security@^0.7 @rxstack/query-filter@^0.6
     - run: npm test
     - name: Test & publish code coverage
       uses: paambaati/codeclimate-action@v3.0.0
