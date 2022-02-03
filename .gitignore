@@ -4,7 +4,6 @@ coverage
 html-report
 npm-debug.log
 coverage.json
-package-lock.json
 .nyc_output/
 *.iml
 .idea/
