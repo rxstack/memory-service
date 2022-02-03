@@ -28,3 +28,7 @@ jobs:
         cache: 'npm'
     - run: npm ci
     - run: npm test
+    - name: Test & publish code coverage
+      uses: paambaati/codeclimate-action@v3.0.0
+      env:
+        CC_TEST_REPORTER_ID: 833490a5d275e269aeafa9de0049fb7a5a96ff9ebfdbb76fb47d6bd990991838

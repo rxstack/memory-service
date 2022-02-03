@@ -20,7 +20,7 @@ export class MemoryService<T> implements ServiceInterface<T>, InjectorAwareInter
     this.injector = injector;
   }
 
-  async insertOne(data: Object): Promise<T> {
+  async insertOne(data: Record<string, any>): Promise<T> {
     const id = data[this.options.idField] || uuidv4();
     this.assertObjectNotExist(id);
     const obj = _.extend({}, data, { [this.options.idField]: id }) as T;
@@ -28,20 +28,20 @@ export class MemoryService<T> implements ServiceInterface<T>, InjectorAwareInter
     return _.cloneDeep(obj);
   }
 
-  async insertMany(data: Object[]): Promise<T[]> {
+  async insertMany(data: Record<string, any>[]): Promise<T[]> {
     const promises: Promise<T>[] = [];
     data.forEach(data => promises.push(this.insertOne(data)));
     const result = await Promise.all(promises);
     return _.cloneDeep(result);
   }
 
-  async updateOne(id: any, data: Object): Promise<void> {
+  async updateOne(id: any, data: Record<string, any>): Promise<void> {
     this.assertObjectExist(id);
     const resource = _.merge(this.getCollection().get(id), _.omit(data, this.options.idField));
     this.getCollection().set(id, resource);
   }
 
-  async updateMany(criteria: Object, data: Object): Promise<number> {
+  async updateMany(criteria: Record<string, any>, data: Record<string, any>): Promise<number> {
     const resources = await this.findMany({where: criteria, skip: 0, limit: this.options.defaultLimit});
     for (let i = 0; i < resources.length; i++) {
       await this.updateOne(resources[i][this.options.idField], data);
@@ -54,7 +54,7 @@ export class MemoryService<T> implements ServiceInterface<T>, InjectorAwareInter
     this.getCollection().delete(id);
   }
 
-  async removeMany(criteria: Object): Promise<number> {
+  async removeMany(criteria: Record<string, any>): Promise<number> {
     const resources = await this.findMany({where: criteria, skip: 0, limit: this.options.defaultLimit});
     for (let i = 0; i < resources.length; i++) {
       await this.removeOne(resources[i][this.options.idField]);
@@ -62,7 +62,7 @@ export class MemoryService<T> implements ServiceInterface<T>, InjectorAwareInter
     return resources.length;
   }
 
-  async count(criteria?: Object): Promise<number> {
+  async count(criteria?: Record<string, any>): Promise<number> {
     return this.getFilteredAndSortedResult(criteria).length;
   }
 
@@ -70,7 +70,7 @@ export class MemoryService<T> implements ServiceInterface<T>, InjectorAwareInter
     return _.cloneDeep(this.getCollection().get(id));
   }
 
-  async findOne(criteria: Object): Promise<T> {
+  async findOne(criteria: Record<string, any>): Promise<T> {
     return _.cloneDeep(_.first(this.getFilteredAndSortedResult(criteria)));
   }
 
@@ -95,7 +95,7 @@ export class MemoryService<T> implements ServiceInterface<T>, InjectorAwareInter
     return this.injector.get(SORTER_TOKEN);
   }
 
-  private getFilteredAndSortedResult(criteria?: Object, sort?: SortInterface): T[] {
+  private getFilteredAndSortedResult(criteria?: Record<string, any>, sort?: SortInterface): T[] {
     return Array
       .from(this.getCollection().values())
       .filter(this.getMather().match(criteria))

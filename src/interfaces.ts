@@ -3,7 +3,7 @@ import {InjectionToken} from 'injection-js';
 import {ServiceOptions} from '@rxstack/platform';
 
 export type FilterCallback = (current: any) => boolean;
-export type ComparisonCallback = (first: Object, second: Object) => number;
+export type ComparisonCallback = (first: Record<string, any>, second: Record<string, any>) => number;
 
 export interface MatcherInterface {
   match(query: {[key: string]: any}): FilterCallback;
