@@ -1,4 +1,5 @@
 import 'reflect-metadata';
+import {describe, expect, it, beforeAll, afterAll} from '@jest/globals';
 import {DataContainer} from '../src';
 
 describe('MemoryService:DataContainer', () => {
@@ -6,15 +7,15 @@ describe('MemoryService:DataContainer', () => {
   const container = new DataContainer();
 
   it('#getCollection', () => {
-    container.getCollection('name').should.be.instanceOf(Map);
+    expect(container.getCollection('name')).toBeInstanceOf(Map);
   });
 
   it('#count', () => {
-    container.count().should.be.equal(1);
+    expect(container.count()).toBe(1);
   });
 
   it('#purge', async () => {
     await container.purge();
-    container.count().should.be.equal(0);
+    expect(container.count()).toBe(0);
   });
 });

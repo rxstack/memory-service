@@ -44,6 +44,7 @@ export class MemoryService<T> implements ServiceInterface<T>, InjectorAwareInter
   async updateMany(criteria: Record<string, any>, data: Record<string, any>): Promise<number> {
     const resources = await this.findMany({where: criteria, skip: 0, limit: this.options.defaultLimit});
     for (let i = 0; i < resources.length; i++) {
+      // @ts-ignore
       await this.updateOne(resources[i][this.options.idField], data);
     }
     return resources.length;
@@ -57,6 +58,7 @@ export class MemoryService<T> implements ServiceInterface<T>, InjectorAwareInter
   async removeMany(criteria: Record<string, any>): Promise<number> {
     const resources = await this.findMany({where: criteria, skip: 0, limit: this.options.defaultLimit});
     for (let i = 0; i < resources.length; i++) {
+      // @ts-ignore
       await this.removeOne(resources[i][this.options.idField]);
     }
     return resources.length;
