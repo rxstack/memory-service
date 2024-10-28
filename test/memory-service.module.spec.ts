@@ -1,4 +1,5 @@
 import 'reflect-metadata';
+import {describe, expect, it, beforeAll, afterAll} from '@jest/globals';
 import {Application} from '@rxstack/core';
 import {Injector} from 'injection-js';
 import {MEMORY_SERVICE_OPTIONS, PRODUCT_SERVICE} from './mocks/MEMORY_SERVICE_OPTIONS';
@@ -9,28 +10,28 @@ describe('MemoryService:MemoryServiceModule', () => {
   const app = new Application(MEMORY_SERVICE_OPTIONS);
   let injector: Injector;
 
-  before(async() =>  {
+  beforeAll(async() =>  {
     await app.start();
     injector = app.getInjector();
   });
 
-  after(async() =>  {
+  afterAll(async() =>  {
     await app.stop();
   });
 
   it('#PRODUCT_SERVICE', () => {
-    injector.get(PRODUCT_SERVICE).should.be.instanceOf(MemoryService);
+    expect(injector.get(PRODUCT_SERVICE)).toBeInstanceOf(MemoryService);
   });
 
   it('#MATCHER_TOKEN', () => {
-    injector.get(MATCHER_TOKEN).should.be.instanceOf(Matcher);
+    expect(injector.get(MATCHER_TOKEN)).toBeInstanceOf(Matcher);
   });
 
   it('#SORTER_TOKEN', () => {
-    injector.get(SORTER_TOKEN).should.be.instanceOf(Sorter);
+    expect(injector.get(SORTER_TOKEN)).toBeInstanceOf(Sorter);
   });
 
   it('#DataContainer', () => {
-    injector.get(DataContainer).should.be.instanceOf(DataContainer);
+    expect(injector.get(DataContainer)).toBeInstanceOf(DataContainer);
   });
 });
